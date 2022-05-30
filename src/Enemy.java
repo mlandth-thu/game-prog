@@ -31,7 +31,7 @@ public class Enemy extends GameObject {
 
     private void loadTexture() {
         try {
-            texture = ImageIO.read(getClass().getResource("Enemy.png"));
+            texture = ImageIO.read(getClass().getResource("res/img/Enemy.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

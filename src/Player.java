@@ -35,7 +35,7 @@ public class Player extends GameObject {
 
     private void loadTexture() {
         try {
-            texture = ImageIO.read(getClass().getResource("RocketShip.png"));
+            texture = ImageIO.read(getClass().getResource("res/img/RocketShip.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

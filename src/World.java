@@ -51,7 +51,7 @@ public class World {
 
     private void loadBack() {
         try {
-            back = ImageIO.read(getClass().getResource("Back.jpg"));
+            back = ImageIO.read(getClass().getResource("res/img/Back.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
