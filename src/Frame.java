@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Frame extends JFrame {
-   private GraphicsSystem panel;
+   private final GraphicsSystem panel;
 
     public Frame(InputHandler input) {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);

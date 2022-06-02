@@ -1,9 +1,9 @@
 import java.awt.*;
 
 public class Bullet extends GameObject {
-    private float speed;
-    private float size;
-    private boolean ofPlayer;
+    private final float speed;
+    private final float size;
+    private final boolean ofPlayer;
 
     /*** CONSTRUCTOR ***/
     public Bullet(float x, float y, float size, float speed, boolean ofPlayer) {
@@ -27,7 +27,6 @@ public class Bullet extends GameObject {
     @Override
     public void drawObject(Graphics graphics) {
         if (ofPlayer) {
-
             graphics.setColor(Color.GREEN);
             graphics.fillRect((int) (x - size), (int) (y - size), (int) size * 2, (int) size * 2);
             graphics.setColor(new Color(102,0,153));
@@ -36,8 +35,6 @@ public class Bullet extends GameObject {
             graphics.setColor(Color.RED);
             graphics.fillRect((int) (x - size), (int) (y - size), (int) size * 2, (int) size * 2);
         }
-
-
         move();
     }
 
@@ -49,4 +46,13 @@ public class Bullet extends GameObject {
     public boolean isOfPlayer() {
         return ofPlayer;
     }
+
+    public double getCenteredX() {
+        return x + size / 2;
+    }
+
+    public double getCentredY() {
+        return y + size / 2;
+    }
 }
+

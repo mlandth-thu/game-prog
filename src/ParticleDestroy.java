@@ -2,10 +2,10 @@ import java.awt.*;
 import java.util.Random;
 
 public class ParticleDestroy extends GameObject {
-    private int size;
-    private Direction moveDir;
-    private Color color;
-    private int speed;
+    private final int size;
+    private final Direction moveDir;
+    private final Color color;
+    private final int speed;
 
     public ParticleDestroy(int x, int y, int size, Color color, Direction moveDir) {
         this.x = x;

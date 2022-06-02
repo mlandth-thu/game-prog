@@ -8,17 +8,17 @@ public class UIManager {
 
     private Image titleImage;
 
-    private TextObject startText;
-    private TextObject restartText;
-    private TextObject pauseText;
-    private TextObject waveInfo;
-    private TextObject waveTimer;
-    private TextObject healthText;
-    private TextObject scoreText;
-    private TextObject gameOverText;
-    private TextObject waveText;
+    private final TextObject startText;
+    private final TextObject restartText;
+    private final TextObject pauseText;
+    private final TextObject waveInfo;
+    private final TextObject waveTimer;
+    private final TextObject healthText;
+    private final TextObject scoreText;
+    private final TextObject gameOverText;
+    private final TextObject waveText;
 
-    private ArrayList<GameObject> textObjectList;
+    private final ArrayList<GameObject> textObjectList;
     TitleScreen titleScreen;
 
     public UIManager() {
@@ -112,7 +112,7 @@ public class UIManager {
     }
 
     /*** ANIMATION ***/
-    private float delay = 1;
+    private final float delay = 1;
     private float currentShowTime = delay;
     private float currentHideTime = delay;
 
@@ -133,7 +133,7 @@ public class UIManager {
         }
     }
 
-    private float redelay = 1;
+    private final float redelay = 1;
     private float recurrentShowTime = redelay;
     private float recurrentHideTime = redelay;
 
@@ -142,7 +142,6 @@ public class UIManager {
         if (recurrentShowTime > 0) {
             recurrentShowTime -= Time.deltaTime;
             showRestartText();
-            ;
         } else {
             if (recurrentHideTime > 0) {
                 recurrentHideTime -= Time.deltaTime;

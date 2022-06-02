@@ -3,8 +3,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class DestroyAnimation extends GameObject {
-    private ArrayList<ParticleDestroy> particleDestroyList;
-    private int numberOfParticles;
+    private final ArrayList<ParticleDestroy> particleDestroyList;
+    private final int numberOfParticles;
 
     public DestroyAnimation(int x, int y, int numberOfParticles) {
         this.x = x;

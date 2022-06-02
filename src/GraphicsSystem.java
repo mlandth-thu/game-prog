@@ -5,9 +5,9 @@ import java.awt.image.BufferedImage;
 
 public class GraphicsSystem extends JPanel {
     //For Buffering
-    private GraphicsConfiguration graphicsConfig = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
-    private BufferedImage imageBuffer;
-    private Graphics graphics;
+    private final GraphicsConfiguration graphicsConfig = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
+    private final BufferedImage imageBuffer;
+    private final Graphics graphics;
 
     public GraphicsSystem(InputHandler keyInput) {
         this.setSize(Toolkit.getDefaultToolkit().getScreenSize());

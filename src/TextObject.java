@@ -3,10 +3,12 @@ import java.awt.*;
 public class TextObject extends GameObject {
     String text;
 
-    private int x, y, size;
+    private final int x;
+    private final int y;
+    private final int size;
     private Font font;
-    private Color color;
-    private boolean isCentered;
+    private final Color color;
+    private final boolean isCentered;
 
     public TextObject(String text, int x, int y, int size, Color color, boolean isCentered) {
         this.text = text;

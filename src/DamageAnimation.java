@@ -3,8 +3,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class DamageAnimation extends GameObject {
-    private ArrayList<ParticleDamage> particleDestroyList;
-    private int numberOfParticles;
+    private final ArrayList<ParticleDamage> particleDestroyList;
+    private final int numberOfParticles;
 
     public DamageAnimation(int x, int y, int numberOfParticles) {
         this.x = x;

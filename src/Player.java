@@ -6,11 +6,11 @@ public class Player extends GameObject {
     private Image texture;
     private double speed;
     private int health;
-    private float width;
-    private float height;
-    private Color color;
-    private InputHandler input;
-    private double widthBorder;
+    private final float width;
+    private final float height;
+    private final Color color;
+    private final InputHandler input;
+    private final double widthBorder;
     private boolean isDead;
     private float shootDelay = 0.2f;
 
@@ -131,5 +131,13 @@ public class Player extends GameObject {
 
     public void decShootDelay(float shootDelay) {
         this.shootDelay -= shootDelay;
+    }
+
+    public double getCenteredX() {
+        return x + width / 2;
+    }
+
+    public double getCentredY() {
+        return y + height / 2;
     }
 }

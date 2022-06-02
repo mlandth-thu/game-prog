@@ -12,12 +12,12 @@ public class World {
     private Image back;
     private Player player;
 
-    private List<GameObject> worldObjects;
-    private List<Enemy> enemies;
-    private List<Bullet> bullets;
+    private final List<GameObject> worldObjects;
+    private final List<Enemy> enemies;
+    private final List<Bullet> bullets;
 
-    private double worldMaxWidth;
-    private double worldMaxHeight;
+    private final double worldMaxWidth;
+    private final double worldMaxHeight;
 
     /*** CONSTRUCTOR ***/
     public World(InputHandler input) {
@@ -72,7 +72,7 @@ public class World {
         Enemy enemy = null;
         switch (type) {
             case NORMAL:
-                enemy = new Enemy(r.nextInt((int) worldMaxWidth), r.nextInt(500), 5, 50, 5, EnemyType.NORMAL, 50, currentWave);
+                enemy = new Enemy(r.nextInt((int) worldMaxWidth), r.nextInt(500), 3, 50, 5, EnemyType.NORMAL, 50, currentWave);
                 break;
             case ELITE:
                 enemy = new Enemy(r.nextInt((int) worldMaxWidth), r.nextInt(500), 15, 100,30, EnemyType.ELITE, 100, currentWave);
@@ -140,18 +140,18 @@ public class World {
                         if (dx * dx + dy * dy < dist * dist) {
                             e.takeDamage();
                             bulletToDestroy = b;
-                            DamageAnimation deA = new DamageAnimation((int) e.getX(), (int) e.getY(), 3);
+                            DamageAnimation deA = new DamageAnimation((int) e.getCenteredX(), (int) e.getCentredY(), 3);
                             if(e.getHealth() < 1) { //when enemy health reaches zero destroy it
                                 enemyToDestroy = e;
-                                DestroyAnimation dA = new DestroyAnimation((int) e.getX(), (int) e.getY(), 30);
+                                DestroyAnimation dA = new DestroyAnimation((int) e.getCenteredX(), (int) e.getCentredY(), 30);
                             }
                         }
                     }
                 }
             } else {
                 double dist = player.getWidth() + b.getSize();
-                double dx = Math.abs(player.x - b.x);
-                double dy = Math.abs(player.y - b.y);
+                double dx = Math.abs(player.getCenteredX() - b.getCenteredX());
+                double dy = Math.abs(player.getCentredY() - b.getCentredY());
 
                 if (dx < dist && dy < dist) {
                     if (dx * dx + dy * dy < dist * dist) {

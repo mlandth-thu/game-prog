@@ -19,7 +19,7 @@ public class GameManager {
 
     /*** BREAK BETWEEN WAVES ***/
     private float currentBreakTime;
-    private float breakDelay;
+    private final float breakDelay;
 
     public void createNewWave() { //rearanged to fix bug
         if (doBreak()) {

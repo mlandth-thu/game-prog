@@ -58,6 +58,7 @@ public class Main {
         }
     }
 
+    /*** RESTART GAME ***/
     private static void handleRestartGame() {
         if (World.instance.getPlayer().isDead()) {
             UIManager.instance.doReStartTextAnimation();

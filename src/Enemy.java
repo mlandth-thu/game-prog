@@ -5,8 +5,9 @@ import java.util.Random;
 
 public class Enemy extends GameObject {
     private Image texture;
-    private float width, height;
-    private int speed;
+    private final float width;
+    private final float height;
+    private final int speed;
     private int health;
     int level;
     EnemyType type;
@@ -165,7 +166,7 @@ public class Enemy extends GameObject {
 
     @Override
     public void drawObject(Graphics graphics) {
-        graphics.drawImage(texture, (int) x - (int) (width / 2), (int) y, (int) width, (int) height, null);
+        graphics.drawImage(texture, (int) x + (int) (width / 2), (int) y + (int)(height / 2), (int) width, (int) height, null);
         move();
     }
 
@@ -188,5 +189,13 @@ public class Enemy extends GameObject {
 
     public EnemyType getType() {
         return type;
+    }
+
+    public double getCenteredX() {
+        return x + width / 2;
+    }
+
+    public double getCentredY() {
+        return y + height / 2;
     }
 }
