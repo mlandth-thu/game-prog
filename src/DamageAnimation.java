@@ -2,11 +2,11 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class DestroyAnimation extends GameObject {
-    private ArrayList<ParticleDestroy> particleDestroyList;
+public class DamageAnimation extends GameObject {
+    private ArrayList<ParticleDamage> particleDestroyList;
     private int numberOfParticles;
 
-    public DestroyAnimation(int x, int y, int numberOfParticles) {
+    public DamageAnimation(int x, int y, int numberOfParticles) {
         this.x = x;
         this.y = y;
         this.numberOfParticles = numberOfParticles;
@@ -19,7 +19,7 @@ public class DestroyAnimation extends GameObject {
 
     private void createParticles() {
         for (int i = 0; i < numberOfParticles; i++) {
-            particleDestroyList.add(new ParticleDestroy((int)x,(int)y, 5, Color.WHITE, getRandomDirection()));
+            particleDestroyList.add(new ParticleDamage((int)x,(int)y, 2, Color.orange, getRandomDirection()));
         }
     }
 

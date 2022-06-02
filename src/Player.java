@@ -12,10 +12,11 @@ public class Player extends GameObject {
     private InputHandler input;
     private double widthBorder;
     private boolean isDead;
+    private float shootDelay = 0.2f;
 
     /*** CONSTRUCTOR ***/
     public Player(float width, float height, Color color, double speed, InputHandler input) {
-        this.x = 900;
+        this.x = World.instance.getWorldMaxWidth() / 2;
         this.y = World.instance.getWorldMaxHeight() - 80;
 
         this.speed = speed;
@@ -35,7 +36,7 @@ public class Player extends GameObject {
 
     private void loadTexture() {
         try {
-            texture = ImageIO.read(getClass().getResource("res/img/RocketShip.png"));
+            texture = ImageIO.read(getClass().getResource("resources/RocketShip.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -52,11 +53,10 @@ public class Player extends GameObject {
 
     /*** SHOOT ***/
     boolean canShoot;
-    float shootDelay = 0.2f;
     float currentShootTime;
 
     public void shoot() {
-        if(isDead) return;
+        if(isDead || GameManager.instance.isPaused()) return;
 
         if (input.isShooting && canShoot) {
             Bullet b = new Bullet((float) x, (float) y , 5, 350, true);
@@ -86,6 +86,7 @@ public class Player extends GameObject {
         if (health == 0) {
             System.out.println("GAME OVER");
             UIManager.instance.showGameOverText();
+            UIManager.instance.doReStartTextAnimation();
             isDead = true;
             DestroyAnimation destroyAnimation = new DestroyAnimation((int)x,(int)y,30);
             World.instance.destroyGameObject(this);
@@ -104,7 +105,31 @@ public class Player extends GameObject {
     }
 
     /*** GETTER ***/
+    public boolean isDead() {
+        return isDead;
+    }
+
     public double getWidth() {
         return width;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public void incSpeed(double speed) {
+        this.speed += speed;
+    }
+
+    public void incHealth() {
+        health++;
+    }
+
+    public float getShootDelay() {
+        return shootDelay;
+    }
+
+    public void decShootDelay(float shootDelay) {
+        this.shootDelay -= shootDelay;
     }
 }

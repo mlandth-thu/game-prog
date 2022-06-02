@@ -1,13 +1,13 @@
 import java.awt.*;
 import java.util.Random;
 
-public class Particle extends GameObject {
+public class ParticleDestroy extends GameObject {
     private int size;
     private Direction moveDir;
     private Color color;
     private int speed;
 
-    public Particle(int x, int y, int size, Color color, Direction moveDir) {
+    public ParticleDestroy(int x, int y, int size, Color color, Direction moveDir) {
         this.x = x;
         this.y = y;
         this.size = size;

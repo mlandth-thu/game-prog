@@ -26,12 +26,18 @@ public class Bullet extends GameObject {
 
     @Override
     public void drawObject(Graphics graphics) {
-        if (ofPlayer)
-            graphics.setColor(Color.WHITE);
-        else
-            graphics.setColor(Color.RED);
+        if (ofPlayer) {
 
-        graphics.fillRect((int) (x - size), (int) (y - size), (int) size * 2, (int) size * 2);
+            graphics.setColor(Color.GREEN);
+            graphics.fillRect((int) (x - size), (int) (y - size), (int) size * 2, (int) size * 2);
+            graphics.setColor(new Color(102,0,153));
+            graphics.fillRect((int) (x - size) + 1, (int) (y - size) + 1, (int) size * 2 - 2, (int) size * 2 - 2);
+        } else {
+            graphics.setColor(Color.RED);
+            graphics.fillRect((int) (x - size), (int) (y - size), (int) size * 2, (int) size * 2);
+        }
+
+
         move();
     }
 

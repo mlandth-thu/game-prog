@@ -6,21 +6,33 @@ public class TextObject extends GameObject {
     private int x, y, size;
     private Font font;
     private Color color;
+    private boolean isCentered;
 
-    public TextObject(String text, int x, int y, int size, Color color) {
+    public TextObject(String text, int x, int y, int size, Color color, boolean isCentered) {
         this.text = text;
         this.x = x;
         this.y = y;
         this.size = size;
         this.color = color;
+        this.isCentered = isCentered;
+        font = GameFont.getGameFont(font, size);
+        //font = GameFont.font;
 
-        font = new Font("", Font.ITALIC, size);
     }
 
     @Override
     void drawObject(Graphics graphics) {
         graphics.setFont(font);
         graphics.setColor(color);
-        graphics.drawString(text, x, y);
+        int newX;
+        int newY;
+        if (isCentered) {
+            newX = x - (int) graphics.getFontMetrics(font).getStringBounds(text, graphics).getWidth() / 2;
+            newY = y - (int) graphics.getFontMetrics(font).getStringBounds(text, graphics).getHeight() / 2;
+        } else {
+            newX = x;
+            newY = y;
+        }
+        graphics.drawString(text, newX, newY);
     }
 }

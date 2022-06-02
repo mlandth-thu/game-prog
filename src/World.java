@@ -2,6 +2,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -44,14 +45,19 @@ public class World {
 
     /*** INIT ***/
     private void init(InputHandler input) {
-        player = new Player(50, 50, Color.WHITE, 150, input);
+        createPlayer();
         loadBack();
+
+    }
+
+    public void createPlayer() {
+        player = new Player(50, 50, Color.WHITE, 150, InputHandler.instance);
         worldObjects.add(player);
     }
 
     private void loadBack() {
         try {
-            back = ImageIO.read(getClass().getResource("res/img/Back.jpg"));
+            back = ImageIO.read(getClass().getResource("resources/Back.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,12 +67,22 @@ public class World {
         return back;
     }
 
-    public void createEnemies(int amount) {
+    public void createEnemy(EnemyType type, int currentWave) {
         Random r = new Random();
-        for (int i = 0; i < amount; i++) {
-            Enemy enemy = new Enemy(r.nextInt((int) worldMaxWidth), r.nextInt(500), 50, 50);
-            addEnemy(enemy);
+        Enemy enemy = null;
+        switch (type) {
+            case NORMAL:
+                enemy = new Enemy(r.nextInt((int) worldMaxWidth), r.nextInt(500), 5, 50, 5, EnemyType.NORMAL, 50, currentWave);
+                break;
+            case ELITE:
+                enemy = new Enemy(r.nextInt((int) worldMaxWidth), r.nextInt(500), 15, 100,30, EnemyType.ELITE, 100, currentWave);
+                break;
+            case BOSS:
+                enemy = new Enemy(r.nextInt((int) worldMaxWidth), r.nextInt(500), 30, 200,60, EnemyType.BOSS,200, currentWave);
+                break;
+
         }
+        addEnemy(enemy);
     }
 
     /*** GAMEOBJECTS ***/
@@ -89,6 +105,8 @@ public class World {
     public void destroyGameObject(GameObject gameObject) {
         if (gameObject instanceof Enemy) {
             enemies.remove(gameObject);
+            GameManager.instance.addScore(110);
+            triggerDeath(((Enemy) gameObject).getType());
 
         } else if (gameObject instanceof Bullet) {
             bullets.remove(gameObject);
@@ -97,8 +115,17 @@ public class World {
         worldObjects.remove(gameObject);
     }
 
+    public void removeAllEnemies() {
+        for (Enemy e : enemies) {
+            worldObjects.remove(e);
+        }
+
+        enemies.clear();
+    }
+
+
     /*** COLLISION ***/
-    public void checkForCollision() {
+    public void checkForCollision() {   // currently checks if enemy is hit and instantly deletes them + plays destroy anim.
         Bullet bulletToDestroy = null;
         Bullet bulletOfEnemyToDestroy = null;
         Enemy enemyToDestroy = null;
@@ -111,9 +138,13 @@ public class World {
 
                     if (dx < dist && dy < dist) {
                         if (dx * dx + dy * dy < dist * dist) {
+                            e.takeDamage();
                             bulletToDestroy = b;
-                            enemyToDestroy = e;
-                            DestroyAnimation dA = new DestroyAnimation((int)e.getX(), (int)e.getY(), 30);
+                            DamageAnimation deA = new DamageAnimation((int) e.getX(), (int) e.getY(), 3);
+                            if(e.getHealth() < 1) { //when enemy health reaches zero destroy it
+                                enemyToDestroy = e;
+                                DestroyAnimation dA = new DestroyAnimation((int) e.getX(), (int) e.getY(), 30);
+                            }
                         }
                     }
                 }
@@ -137,6 +168,77 @@ public class World {
         destroyGameObject(enemyToDestroy);
     }
 
+    /** UPGRADES **/
+
+    private void triggerDeath(EnemyType t) {
+        Random r = new Random();
+        int randomInt = r.nextInt(100) + 1;
+        switch (t) {
+            case NORMAL:
+                dropNormal(randomInt);
+                break;
+            case ELITE:
+                dropElite(randomInt);
+                break;
+            case BOSS:
+                dropBoss(randomInt);
+                break;
+        }
+    }
+
+    private void dropNormal(int randomInt) {
+        Random r = new Random();
+        List<UpgradeType> normalUpgrades = Arrays.asList(UpgradeType.SHOOT_DELAY, UpgradeType.HEALTH, UpgradeType.SPEED);
+        if (randomInt < 5) {
+            int index = r.nextInt(normalUpgrades.size());
+            UpgradeType choice = normalUpgrades.get(index);
+            System.out.print("dropNormal: ");
+            doUpgrade(choice);
+        }
+    }
+
+    private void dropElite(int randomInt) {
+        System.out.println("dropElite");
+        if (randomInt < 50) {
+
+        }
+        //TODO
+    }
+
+    private void dropBoss(int randomInt) {
+        System.out.println("dropBoss");
+
+        player.incHealth();
+        //TODO
+    }
+
+    private void doUpgrade(UpgradeType choice) {
+        System.out.print(choice);
+        switch (choice) {
+            case HEALTH:
+                player.incHealth();
+                System.out.println();
+                break;
+            case SPEED:
+                player.incSpeed(1);
+                System.out.println(" | speed: " +player.getSpeed());
+                break;
+            case SHOOT_DELAY:
+                player.decShootDelay(0.5f);
+                System.out.println(" | shoot_delay: " +player.getShootDelay());
+                break;
+
+            case BULLET_SIZE:
+
+            case GUN_QUANTITY:
+
+            case GRENADE:
+
+            case NONE:
+        }
+
+    }
+    
     /*** GETTER ***/
     public double getWorldMaxWidth() {
         return worldMaxWidth;
@@ -149,4 +251,10 @@ public class World {
     public List<Enemy> getEnemies() {
         return enemies;
     }
+
+    public Player getPlayer() {
+        return player;
+    }
 }
+
+

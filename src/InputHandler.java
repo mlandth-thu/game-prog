@@ -1,13 +1,20 @@
+import javax.print.DocFlavor;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class InputHandler extends KeyAdapter {
+    public static InputHandler instance;
 
     public boolean isMovingRight;
     public boolean isMovingLeft;
 
     public boolean isShooting;
 
+    public boolean isPause;
+
+    public InputHandler() {
+        instance = this;
+    }
     @Override
     public void keyPressed(KeyEvent e) {
         /*** MOVEMENT ***/
@@ -19,6 +26,9 @@ public class InputHandler extends KeyAdapter {
         /*** SHOOTING ***/
         if(e.getKeyCode() == KeyEvent.VK_SPACE)
             isShooting = true;
+
+        if(e.getKeyCode()== KeyEvent.VK_ESCAPE)
+            isPause = !isPause;
 
     }
 
@@ -33,5 +43,7 @@ public class InputHandler extends KeyAdapter {
         /*** SHOOTING ***/
         if(e.getKeyCode() == KeyEvent.VK_SPACE)
             isShooting = false;
+
+
     }
 }

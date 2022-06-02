@@ -7,16 +7,22 @@ public class Enemy extends GameObject {
     private Image texture;
     private float width, height;
     private int speed;
+    private int health;
+    int level;
+    EnemyType type;
 
     /*** CONSTRUCTOR ***/
-    public Enemy(int x, int y, float heigth, float width) {
+    public Enemy(int x, int y, int health, float heigth, int speed, EnemyType type, float width, int currentWave) {
         this.x = x;
         this.y = y;
+        this.health = health;
 
+        this.type = type;
         this.width = width;
         this.height = heigth;
+        this.level = currentWave;
+        this.speed = level * 5 + speed;
 
-        this.speed = 20;
         shootDelay = 3;
         currentShootTime = shootDelay;
         canShoot = true;
@@ -31,7 +37,15 @@ public class Enemy extends GameObject {
 
     private void loadTexture() {
         try {
-            texture = ImageIO.read(getClass().getResource("res/img/Enemy.png"));
+            if (type == EnemyType.NORMAL) {
+                texture = ImageIO.read(getClass().getResource("resources/Enemy.png"));
+            }
+            else if (type == EnemyType.ELITE) {
+                texture = ImageIO.read(getClass().getResource("resources/EnemyElite.png"));
+            }
+            else if (type == EnemyType.BOSS) {
+                texture = ImageIO.read(getClass().getResource("resources/EnemyBoss.png"));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -75,8 +89,8 @@ public class Enemy extends GameObject {
 
     private Direction getRandomMoveDirection() {
         Random r = new Random();
-        int rdm = r.nextInt(3);
-        moveDelayTime = r.nextInt(5) + 5;
+        int rdm = r.nextInt(4);
+        moveDelayTime = r.nextInt(5) + 2;
         switch (rdm) {
             case 0:
                 return Direction.UP;
@@ -90,24 +104,60 @@ public class Enemy extends GameObject {
         return null;
     }
 
+    public void takeDamage () {
+        health = health - 1;
+    }
+
     /*** SHOOT ***/
     private boolean canShoot;
     private float shootDelay = 0.2f;
     private float currentShootTime;
 
     public void shoot() {
-        if (canShoot) {
+        if (canShoot && type == EnemyType.NORMAL) {
             Bullet b = new Bullet((float) x, (float) y + height, 5, 350, false);
             canShoot = false;
         }
 
-        if (!canShoot) {
+        else if (canShoot && type == EnemyType.ELITE) {
+            Bullet b = new Bullet((float) x, (float) y + height, 10, 650, false);
+            canShoot = false;
+        }
+
+        else if (canShoot && type == EnemyType.BOSS) {
+            Bullet b = new Bullet((float) x, (float) y + height, 20, 850, false);
+            canShoot = false;
+        }
+
+        if (!canShoot && type == EnemyType.NORMAL) {
             if (currentShootTime > 0)
                 currentShootTime -= Time.deltaTime;
             else {
                 canShoot = true;
                 Random r = new Random();
                 shootDelay = r.nextInt(10);
+                currentShootTime = shootDelay;
+            }
+        }
+
+        if (!canShoot && type == EnemyType.ELITE) {
+            if (currentShootTime > 0)
+                currentShootTime -= Time.deltaTime;
+            else {
+                canShoot = true;
+                Random r = new Random();
+                shootDelay = r.nextInt(5);
+                currentShootTime = shootDelay;
+            }
+        }
+
+        if (!canShoot && type == EnemyType.BOSS) {
+            if (currentShootTime > 0)
+                currentShootTime -= Time.deltaTime;
+            else {
+                canShoot = true;
+                Random r = new Random();
+                shootDelay = r.nextInt(2);
                 currentShootTime = shootDelay;
             }
         }
@@ -120,6 +170,10 @@ public class Enemy extends GameObject {
     }
 
     /*** GETTER ***/
+    public int getHealth() {
+        return health;
+    }
+
     public double getWidth() {
         return width;
     }
@@ -130,5 +184,9 @@ public class Enemy extends GameObject {
 
     public double getY() {
         return y;
+    }
+
+    public EnemyType getType() {
+        return type;
     }
 }
