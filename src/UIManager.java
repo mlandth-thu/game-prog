@@ -164,7 +164,7 @@ public class UIManager {
 
         private void loadTitleImage() {
             try {
-                titleImage = ImageIO.read(getClass().getResource("resources/Title.png"));
+                titleImage = ImageIO.read(getClass().getResource("resources/pictures/Title.png"));
             } catch (IOException e) {
                 e.printStackTrace();
             }

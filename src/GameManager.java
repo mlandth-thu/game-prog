@@ -6,6 +6,7 @@ public class GameManager {
     int waveTime;
     public static GameManager instance;
     private boolean isPaused;
+    private boolean isFastMoving;
 
     /*** CONSTRUCTOR ***/
     public GameManager() {
@@ -24,6 +25,7 @@ public class GameManager {
     public void createNewWave() { //rearanged to fix bug
         if (doBreak()) {
             createEnemies();
+            SoundManager.instance.playWaveFinishedSound();
             displayWave();
             currentWave++;
         }
@@ -34,13 +36,19 @@ public class GameManager {
             currentBreakTime -= Time.deltaTime;
             if (currentBreakTime >= 1)
                 UIManager.instance.showWaveInfoText(currentWave, (int) currentBreakTime);
+            isFastMoving = true;
             return false;
         } else {
             currentBreakTime = breakDelay;
             UIManager.instance.hideWaveInfoText();
             waveTime = 3;
+            isFastMoving = false;
             return true;
         }
+    }
+
+    public boolean getFastMoving(){
+        return isFastMoving;
     }
 
     /*** CHECK FOR NEXT WAVE ***/

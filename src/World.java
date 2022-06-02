@@ -1,5 +1,6 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,7 +10,7 @@ import java.util.Random;
 public class World {
     public static World instance;
 
-    private Image back;
+    private BufferedImage back;
     private Player player;
 
     private final List<GameObject> worldObjects;
@@ -57,13 +58,13 @@ public class World {
 
     private void loadBack() {
         try {
-            back = ImageIO.read(getClass().getResource("resources/Back.jpg"));
+            back = ImageIO.read(getClass().getResource("resources/pictures/BackBig.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public Image getBack() {
+    public BufferedImage getBack() {
         return back;
     }
 
@@ -105,6 +106,7 @@ public class World {
     public void destroyGameObject(GameObject gameObject) {
         if (gameObject instanceof Enemy) {
             enemies.remove(gameObject);
+            SoundManager.instance.playEnemyHitSound();
             GameManager.instance.addScore(110);
             triggerDeath(((Enemy) gameObject).getType());
 

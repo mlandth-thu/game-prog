@@ -8,6 +8,7 @@ public class GraphicsSystem extends JPanel {
     private final GraphicsConfiguration graphicsConfig = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
     private final BufferedImage imageBuffer;
     private final Graphics graphics;
+    private float yPixelStart = 4320;
 
     public GraphicsSystem(InputHandler keyInput) {
         this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
@@ -30,6 +31,19 @@ public class GraphicsSystem extends JPanel {
         clear();
 
         graphics.drawImage(World.instance.getBack(), 0, 0, (int)World.instance.getWorldMaxWidth(), (int) World.instance.getWorldMaxHeight(), null);
+        BufferedImage tmpBack = World.instance.getBack();
+        if (GameManager.instance.getFastMoving()){
+            yPixelStart = (float) (yPixelStart - 200 * Time.deltaTime);
+        }else {
+            yPixelStart = (float) (yPixelStart - 80 * Time.deltaTime);
+        }
+        if (yPixelStart < 0){
+            yPixelStart = 4320;
+        }
+        tmpBack = tmpBack.getSubimage(0,(int)yPixelStart, 3840, 2160);
+
+        graphics.drawImage(tmpBack, 0, 0, (int)World.instance.getWorldMaxWidth(), (int) World.instance.getWorldMaxHeight(), null);
+
 
         for (GameObject d : gameObjects) {
             d.drawObject(graphics);

@@ -1,8 +1,9 @@
 public class Main {
     private static GraphicsSystem graphicsSystem;
     private static World world;
-    private static GameManager waveManager;
+    private static GameManager gameManager;
     private static InputHandler input;
+    private static SoundManager soundManager;
 
     /*** MAIN ***/
     public static void main(String[] args) {
@@ -20,7 +21,8 @@ public class Main {
         world = new World(input);
         UIManager uiManager = new UIManager();
         graphicsSystem = frame.getPanel();
-        waveManager = new GameManager();
+        gameManager = new GameManager();
+        soundManager = new SoundManager();
     }
 
     /*** RUN ***/
@@ -33,7 +35,7 @@ public class Main {
             graphicsSystem.draw(world.getWorldObjects());
             world.handleActions();
             world.checkForCollision();
-            waveManager.checkForNextWave();
+            gameManager.checkForNextWave();
 
             handleRestartGame();
         }

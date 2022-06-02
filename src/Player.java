@@ -36,7 +36,7 @@ public class Player extends GameObject {
 
     private void loadTexture() {
         try {
-            texture = ImageIO.read(getClass().getResource("resources/RocketShip.png"));
+            texture = ImageIO.read(getClass().getResource("resources/pictures/RocketShip.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,6 +61,7 @@ public class Player extends GameObject {
         if (input.isShooting && canShoot) {
             Bullet b = new Bullet((float) x, (float) y , 5, 350, true);
             canShoot = false;
+            SoundManager.instance.playShootSound();
         }
 
         if (!canShoot) {
@@ -79,6 +80,7 @@ public class Player extends GameObject {
 
         health--;
         System.out.println("Hit!");
+        SoundManager.instance.playGameOverSound();
         checkForDeath();
     }
 

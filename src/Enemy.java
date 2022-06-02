@@ -39,13 +39,13 @@ public class Enemy extends GameObject {
     private void loadTexture() {
         try {
             if (type == EnemyType.NORMAL) {
-                texture = ImageIO.read(getClass().getResource("resources/Enemy.png"));
+                texture = ImageIO.read(getClass().getResource("resources/pictures/Enemy.png"));
             }
             else if (type == EnemyType.ELITE) {
-                texture = ImageIO.read(getClass().getResource("resources/EnemyElite.png"));
+                texture = ImageIO.read(getClass().getResource("resources/pictures/EnemyElite.png"));
             }
             else if (type == EnemyType.BOSS) {
-                texture = ImageIO.read(getClass().getResource("resources/EnemyBoss.png"));
+                texture = ImageIO.read(getClass().getResource("resources/pictures/EnemyBoss.png"));
             }
         } catch (IOException e) {
             e.printStackTrace();
